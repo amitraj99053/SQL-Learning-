@@ -26,6 +26,8 @@ salary INT
 );
 
 
+
+-- Insert Values into table
 INSERT INTO employee (empId, name, salary)
 VALUES(001, "Amit Kumar", 40000),
 (002, "Sachin Kumar", 35000),
@@ -84,12 +86,72 @@ USE instagramDb;
 
 SHOW TABLES;
 
-SELECT *FROM users;
+SELECT * FROM users;
 
-SELECT *FROM posts;
+SELECT * FROM posts;
+
+USE college;
+
+CREATE TABLE student (
+phoneNo INT UNIQUE
+);
+
+INSERT INTO student (phoneNo)
+VALUES 
+(123),
+(456);
+
+-- not null constraint
+CREATE TABLE student1 (
+age INT,
+rollNo INT NOT NULL
+);
+
+INSERT INTO student1 (age, rollNo)
+VALUES 
+(27, 1);
 
 
+-- check constraint
+CREATE TABLE student2 (
+age INT CHECK(age > 18)
+);
 
+INSERT INTO student2 (age)
+VALUES 
+(19);
+
+
+-- default constraint
+CREATE TABLE student3 (
+schoolName VARCHAR(50) DEFAULT 'XYZ',
+age INT
+);
+
+INSERT INTO student3 (age)
+VALUES 
+(19);
+
+SELECT * FROM student3;
+
+
+-- Primary Key constraint
+CREATE TABLE student4 (
+age INT,
+rollNo INT PRIMARY KEY
+);
+
+-- unique
+INSERT INTO student4 (age, rollNo)
+VALUES
+(12, 1),
+(13, 2),
+(14, 2);
+
+-- not null
+INSERT INTO student4 (age)
+VALUES
+(12);
 
 
 
