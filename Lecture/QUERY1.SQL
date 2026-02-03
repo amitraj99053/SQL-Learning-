@@ -180,7 +180,7 @@ FOREIGN KEY (id) REFERENCES student(id)
 
 
 
--- (12)  UPDATE command in sql
+-- (L 12)  UPDATE command in sql
 
 /*
 Let's make a databse for a company  
@@ -215,7 +215,106 @@ VALUES
 (5, "Raj", 24, "Finance", "Indore", 1500);
 
 
---
+-- 4. See all the data
+SELECT * FROM employee;
+
+-- QN 1. Write a query to update the salary for all employees in the 'HR' department to 50000
+UPDATE employee
+SET salary = 50000
+WHERE department = "HR";
+
+SET SQL_SAFE_UPDATES = 0;
+
+
+-- QN 2. Write a query to update the name of an employee from raaj to raj
+UPDATE employee
+SET name = "Raaj"
+Where name = "Raj";
+
+
+-- (L 13) DELETE Command in sql
+
+-- QN 1. Write a query to DELETE all records from the emplyoee table where the department is "HR"
+DELETE FROM employee
+WHERE department = "HR"; 
+
+
+-- QN 2. Write a query to DELETE the record of an employee having name as "Abhishek"
+DELETE FROM employee
+WHERE name = "Abhishek";
+
+
+-- (L 14) SELECT Command in sql
+SELECT name, age FROM employee;
+SELECT * FROM employee;
+
+
+-- (L 15) Where Clause in sql
+SELECT * FROM employee
+WHERE age > 25;
+
+
+-- (L 16) ALTER Command in sql
+
+-- QN1. ADD a column
+ALTER TABLE employee
+ADD dob VARCHAR(20) DEFAULT "NP";
+
+-- QN2. DROP a column
+ALTER TABLE employee
+DROP COLUMN dob;
+
+-- Modify dataType of age column 'INT' to 'VARCHAR'
+ALTER TABLE employee
+MODIFY age VARCHAR(3);
+
+-- CHANGE column name with dataType
+ALTER TABLE employee
+CHANGE age emp_age INT;
+
+-- RENAME command help to rename table, column, index or constraint
+ALTER TABLE employee
+RENAME COLUMN emp_age TO age;
+
+
+
+-- (L 17) RENAME command in sql
+
+-- rename tables employee to employees
+RENAME TABLE employee TO employees;
+
+-- rename name to emp_name
+ALTER TABLE employees
+RENAME COLUMN name TO emp_name;
+
+-- rename database
+CREATE DATABASE employeesDB;
+RENAME TABLE xyz.employees TO employeesDB.employees;
+
+
+
+-- (L 18) TRUNCATE Command in sql
+
+-- create a salary table into xyz db
+CREATE TABLE salaryDetails (
+salary INt,
+increment INT
+);
+
+INSERT INTO salarydetails(salary, increment)
+VALUES
+(1200, 6),
+(1500, 4);
+
+SELECT * FROM salarydetails;
+
+-- TRUNCATE only delete data not strucutre
+TRUNCATE TABLE salarydetails;
+
+
+
+
+-- (L 19) DEFFERENCE BETWEEN TRUNCATE | DELETE | DROP
 
 
 
