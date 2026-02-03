@@ -316,6 +316,166 @@ TRUNCATE TABLE salarydetails;
 
 -- (L 19) DEFFERENCE BETWEEN TRUNCATE | DELETE | DROP
 
+-- (L 20) DISTINCT KEYWORD IN SQL
+
+
+-- 1. Make a database for a company
+CREATE DATABASE company;
+USE company;
+
+-- 2. Make an employee table in the database
+CREATE TABLE employee (
+id INT PRIMARY KEY,
+name VARCHAR(50),
+age INT,
+department VARCHAR(50),
+city VARCHAR(50),
+salary INT
+);
+
+-- 3. Fill details into the table
+INSERT INTO employee(id, name, age, department, city, salary)
+VALUES
+(1, "Rahul", 25, "IT", "Mumbai", 1500),
+(2, "Afsara", 26, "HR", "Pune", 2000),
+(3, "Abhimanyu", 27, "IT", "Mumbai", 2500),
+(4, "Aditya", 25, "Marketing", "Surat", 2400),
+(5, "Raj", 24, "Finance", "Indore", 1500);
+
+
+-- 4. see all the data
+SELECT * FROM employee;
+
+SELECT DISTINCT department FROM employee;
+
+SELECT DISTINCT department, age FROM employee;
+
+-- (L 21) OPERATORS IN SQL
+
+-- select person whoes going to retaire
+SELECT * FROM employee
+WHERE age+1 = 60;
+
+-- select whoes age is greater then 25
+SELECT * FROM employee 
+WHERE age > 25;
+
+-- use of AND operator
+SELECT * FROM employee 
+WHERE city = 'Pune' AND age > 18;
+
+SELECT * FROM employee 
+WHERE age > 20 AND department = "IT";
+
+-- use of OR operator
+SELECT * FROM employee 
+WHERE city = 'Pune' OR age > 18;
+
+SELECT * FROM employee 
+WHERE age > 20 OR department = "IT";
+
+-- use of NOT IN operator
+SELECT * FROM employee 
+WHERE department NOT IN ('IT', 'HR');
+
+-- use of IN operator
+SELECT * FROM employee 
+WHERE department IN ('IT', 'HR');
+
+-- IS NULL / IS NOT NULL
+SELECT * FROM employee 
+WHERE department IS NOT NULL;
+
+SELECT * FROM employee 
+WHERE department IS NULL;
+
+
+-- LIKE operator
+
+-- list name which starting with A
+SELECT * FROM employee 
+WHERE name LIKE 'A%';
+
+-- list name which second character is A
+SELECT * FROM employee 
+WHERE name LIKE '_A%';
+
+-- BETWEEN operator
+SELECT * FROM employee
+WHERE salary BETWEEN 1200 AND 1500;
+
+
+
+-- (L 22) CLAUSES IN SQL
+-- EXAMPLE WHERE, GROUP BY, HAVING, ORDER BY, LIMIT
+
+-- LIMIT CLAUSE PRINT ONLT 2 ROWS
+SELECT * FROM employee LIMIT 2;
+
+-- ORDER BY CLAUSE
+SELECT * FROM employee ORDER BY salary DESC;
+
+SELECT * FROM employee ORDER BY salary;
+
+
+-- Practice Questions 
+
+-- qn1. Write a sql query to fetch the details of employees having id as 1
+SELECT * FROM employee
+WHERE id = 1;
+
+-- qn2. Write a sql query to fetch the details of employees having id as 1 and city as mumbai
+SELECT * FROM employee
+WHERE id = 1 AND city = "Mumbai";
+
+-- qn3. write a sql query to fetch the details of employees having salary greater than 1200 and city as mumbai
+SELECT * FROM employee
+WHERE salary > 1200 AND city = "Mumbai";
+
+-- qn4. employees who are not from mumbai
+SELECT * FROM employee
+WHERE city NOT IN ("Mumbai");
+
+-- qn5. employees having the maximum salary
+SELECT * FROM employee
+ORDER BY salary DESC;
+
+-- qn6. fetch the details of 2 employees having the maximum salary
+SELECT * FROM employee
+ORDER BY salary DESC
+LIMIT 2;
+
+
+
+-- (L 23) AGGREGATE FUNCTION IN SQL
+
+-- COUNT() FUNCTION to count number of name
+SELECT COUNT(name) FROM employee;
+
+SELECT COUNT(id) FROM employee;
+
+-- SUM() Function 
+SELECT SUM(salary) FROM employee;
+
+-- AVG() Function
+SELECT AVG(salary) FROM employee;
+
+-- MIN() Function
+SELECT MIN(salary) FROM employee;
+
+-- MAX() Function
+SELECT MAX(salary) FROM employee;
+
+
+
+
+-- (L 24) GROUP BY & HAVING CLAUSE
+
+-- GROUP BY CLAUSE
+-- AS keywords doesn't create a new physical column in the table. Insted, it creates an alias or alternate name for the column
+SELECT department, AVG(salary) AS avgSal FROM employee
+GROUP BY department;
+
 
 
 
