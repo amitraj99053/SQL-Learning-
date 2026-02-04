@@ -476,14 +476,333 @@ SELECT MAX(salary) FROM employee;
 SELECT department, AVG(salary) AS avgSal FROM employee
 GROUP BY department;
 
+-- HAVING Clause
+SELECT department, AVG(salary) AS avgSal FROM employee
+GROUP BY department
+HAVING avgSal > 1500;
+
+
+-- (L 25) PRACTICE QUESTION CLAUSE & AGGREGATES
+
+-- QN 1. Write a query to find the total number of employees in each city
+SELECT city, COUNT(name) AS no_of_emp FROM employee
+GROUP BY city;
+
+-- QN 2. Write a query to find the maximum salary of employees in each city in descending order
+SELECT city, MAX(salary) AS max_salary FROM employee
+GROUP BY city
+ORDER BY max_salary DESC;
+
+/*
+ QN 3. Write a query to display the department names alongside the total count
+	   of employees in each department, sorting the results by the total number
+       of employees in descending order. 
+*/
+
+SELECT department, COUNT(id) AS totalEmployees FROM employee
+GROUP BY department
+ORDER BY totalEmployees DESC;
+
+/*
+QN 4. Write a query to list the departments where the average salary is greater
+then 1200, also display the department name and the average salary.
+*/
+
+SELECT department, AVG(salary) AS avgSalary FROM employee
+GROUP BY department
+HAVING avgSalary > 1200;
+
+
+
+-- (L 27) GENERAL ORDER OF SQL COMMAND
+/*
+1. SELECT
+2. FROM
+3. WHERE
+4. GROUP BY
+5. HAVING
+6. ORDER BY
+7. LIMIT
+*/
+
+
+-- (L 28) JOINS IN SQL
+
+-- 1. Make a database for a ecommerce
+CREATE DATABASE ecommerce;
+USE ecommerce;
+
+-- 2. Make a customer table in the ecommernce databse
+CREATE TABLE customer (
+id INT,
+name VARCHAR(50)
+);
+
+-- 3. Fill details in the table
+INSERT INTO customer(id, name)
+VALUES
+(1, "Rahul"),
+(2, "Afsara"),
+(3, "Abhimanyu"),
+(4, "Aditya"),
+(5, "Raj");
+
+
+-- 4. See all the data
+SELECT * FROM customer;
+
+USE ecommerce;
+
+-- 5. Make a orders table in the ecommerce database
+CREATE TABLE orders (
+id INT PRIMARY KEY,
+orderName VARCHAR(50)
+);
+
+-- 6. Fill details into the table
+INSERT INTO orders (id, orderName)
+VALUES
+(2, "Fruit"),
+(3, "Ball"),
+(4, "Utensil");
+
+-- 7. See all the data
+SELECT * FROM orders;
+
+
+-- (L 29) INNER JOIN in sql
+
+-- List details which are equal to customer id and orders id
+SELECT * 
+FROM customer
+INNER JOIN orders
+ON customer.id = orders.id;
+
+-- List customerId, orderName and customerName which are equal to customer id and orders id
+SELECT customer.id, orders.orderName, customer.name
+FROM customer
+INNER JOIN orders
+ON customer.id = orders.id;
+
+
+
+-- (L 30) LEFT OUTER JOIN in sql
+SELECT *
+FROM customer
+LEFT JOIN orders
+ON customer.id = orders.id;
+
+
+
+-- (L 31) RIGHT OUTER JOIN IN SQL
+SELECT *
+FROM customer
+RIGHT JOIN orders
+ON customer.id = orders.id;
+
+
+-- (L 32) FULL OUTER JOIN IN SQL
+SELECT * 
+FROM customer
+LEFT JOIN orders
+ON customer.id = orders.id
+UNION
+SELECT *
+FROM customer
+RIGHT JOIN orders
+ON customer.id = orders.id;
+
+
+-- (L 33) CROSS JOIN IN SQL
+-- m*n (5*3 = 15)
+SELECT * 
+FROM customer
+CROSS JOIN orders;
+
+
+
+-- (L 34) SELF JOIN IN SQL
+-- 1. Make a database for school
+CREATE DATABASE schoolDB;
+USE schoolDB;
+
+-- 2. Make a student table in the school database
+CREATE TABLE student (
+s_id INT,
+name VARCHAR(50),
+mentor_id INT
+);
+
+-- 3. Fill details in the table
+INSERT INTO student(s_id, name, mentor_id)
+VALUES
+(1, "Ram", NULL),
+(2, "Rahul", 1),
+(3, "Riti", 1),
+(4, "Riya", 3);
+
+-- 4. See all the data 
+SELECT * FROM student;
+
+-- self join
+SELECT s1.name AS menotr_name, s2.name AS student_name
+FROM student AS s1
+JOIN student AS s2
+WHERE s1.s_id = s2.mentor_id;
+
+
+
+-- (L 35) EXCLUSIVE JOIN IN SQL
+USE ecommerce;
+
+-- Left EXCLUSIVE JOIN
+SELECT * 
+FROM customer
+LEFT JOIN orders
+ON customer.id = orders.id
+WHERE orders.id IS NULL;
+
+-- Right EXCLUSIVE JOIN
+SELECT * 
+FROM customer
+RIGHT JOIN orders
+ON customer.id = orders.id
+WHERE customer.id IS NULL;
+
+-- Full EXCLUSIVE JOIN
+SELECT * 
+FROM customer
+LEFT JOIN orders
+ON customer.id = orders.id
+WHERE orders.id IS NULL
+UNION
+SELECT * 
+FROM customer
+RIGHT JOIN orders
+ON customer.id = orders.id
+WHERE customer.id IS NULL;
+
+
+
+-- (L 36) UNIONS IN SQL
+
+-- UNION
+SELECT id FROM customer
+UNION
+SELECT id FROM orders;
+
+-- UNION ALL
+SELECT id FROM customer
+UNION ALL
+SELECT id FROM orders;
+
+
+
+-- (L 37) SUBQUERIES IN SQL
+USE employeesdb;
+
+-- QN 1
+-- min salary
+SELECT MIN(salary)
+FROM employees;
+
+-- sal > min_salary
+SELECT name, salary
+FROM employees
+WHERE salary > (SELECT MIN(salary)
+FROM employees);
+
+
+
+-- QN 2. find the employees with the minimum age
+-- min_age
+SELECT MIN(age) FROM employees;
+
+-- age = min_age
+SELECT name, age
+FROM employees
+WHERE age = (SELECT MIN(age) FROM employees);
+
+
+
+
+-- QN 3. Find the employees who is having age greater than min_age
+-- min_age
+SELECT MIN(age) AS min_age 
+FROM employees;
+
+-- all the employees whoese age > min_age
+SELECT emp.name, emp.age
+FROM employees emp, (SELECT MIN(age) AS min_age 
+FROM employees) AS min_age_query
+WHERE emp.age > min_age_query.min_age;
+
+
+
+
+-- QN 4. Print the employees with the average age and age of employees
+-- avg_age
+SELECT AVG(age) FROM employees;
+
+-- print the employees age and avg_age
+SELECT age, (SELECT AVG(age) FROM employees) AS avg_age
+FROM employees;
+
+
+
+-- (L 38) Nth HIGHEST SALARY IN SQL
+
+-- Find the nth highest salary in a given database
+
+-- salary in descring order
+SELECT DISTINCT salary 
+FROM employees
+ORDER BY salary DESC;
+
+
+-- 4th Highest salary
+SELECT DISTINCT salary 
+FROM employees
+ORDER BY salary DESC
+LIMIT 3, 1;
+
+
+
+
+-- (L 39) STORE PROCEDURE IN SQL
+
+-- QN 1. Stored procedure without params
+
+-- create a procedure to get all order details
+DELIMITER /
+CREATE PROCEDURE getOrderDetails()
+BEGIN
+SELECT * FROM orders;
+END /
+DELIMITER ;
+ 
+CALL getOrderDetails(); -- error
+
+-- CALL employees.getOrderDetails();
+
+
+
+-- QN 2. Return the details of the order by id(Stored procedure with params)
+
+
+
+
+-- (L 40) VIEWS IN SQL
+
+-- create a view
+CREATE VIEW employeesView AS 
+SELECT id, name, city FROM employees;
+
+SELECT id FROM employeesView;
 
 
 
 
 
 
-
-
-
-
-
+-- END
